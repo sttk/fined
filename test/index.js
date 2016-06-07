@@ -648,35 +648,6 @@ describe('Properties: `path`', function() {
     expect(result).toEqual(expected);
     done();
   });
-
-  it('ignores `cwd` when `path` has a drive letter (Windows only)', function(done) {
-    if (!isWindows) {
-      this.skip();
-      return;
-    }
-
-    var winDrive = cwd.slice(0, 2);
-
-    var pathObj = {
-      path: winDrive + 'test\\fixtures\\fined',
-    };
-
-    var defaultObj = {
-      name: 'app',
-      findUp: false,
-      extensions: ['.js'],
-    };
-
-    var expected = {
-      path: path.resolve(cwd, 'test/fixtures/fined', 'app.js'),
-      extension: '.js',
-    };
-
-    var result = fined(pathObj, defaultObj);
-
-    expect(result).toEqual(expected);
-    done();
-  });
 });
 
 describe('Properties: `name`', function() {
@@ -1420,35 +1391,6 @@ describe('Properties: `findUp`', function() {
     };
 
     var expected = null;
-
-    var result = fined(pathObj, defaultObj);
-
-    expect(result).toEqual(expected);
-    done();
-  });
-
-  it('does not search up the tree if `cwd` has a drive letter (Windows only)', function(done) {
-    if (!isWindows) {
-      this.skip();
-      return;
-    }
-
-    var winDrive = cwd.slice(0, 2);
-
-    var pathObj = {
-      findUp: true,
-      name: 'package',
-      path: '',
-      cwd: winDrive + 'test\\fixtures',
-      extensions: '.json',
-    };
-
-    var defaultObj = {};
-
-    var expected = {
-      path: path.resolve(cwd, 'package.json'),
-      extension: '.json',
-    };
 
     var result = fined(pathObj, defaultObj);
 
